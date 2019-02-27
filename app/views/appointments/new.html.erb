@@ -1,6 +1,6 @@
 <h1>New Appointment</h1>
 <% if current_user.patient == nil %>
-  <%= render "doctorform" doctor: current_user.doctor, patients: @patients  %>
+  <%= render "doctorform", doctor: current_user.doctor %>
 <% elsif current_user.doctor == nil %>
-  <%= render "patientform" patient: current_user.patient, doctors: @doctors %>
+  <%= render "patientform", patient: current_user.patient %>
 <% end %>

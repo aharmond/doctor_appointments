@@ -7,25 +7,32 @@ class AppointmentsController < ApplicationController
   end
 
   def new
-    @patients = User.possible_patients
-    @doctors = User.possible_doctors
-    
-    if current_user.patient == nil
+    if current_user.doctor != nil
       @doctor = current_user.doctor
       @appointment = @doctor.appointments.new
-    elsif current_user.doctor == nil
+    elsif current_user.patient != nil
       @patient = current_user.patient
       @appointment = @patient.appointments.new
     end
   end
 
   def create
-    @appointment = @patient.appointments.new(appointment_params)
-
-    if @appointment.save 
-      redirect_to patient_appointments_path(@patient)
-    else
-      render :new
+    if current_user.doctor != nil
+      @doctor = current_user.doctor
+      @appointment = @doctor.appointments.new(appointment_params)
+      if @appointment.save
+        redirect_to doctor_path(@doctor)
+      else
+        render :new
+      end
+    elsif current_user.patient != nil
+      @patient = current_user.patient
+      @appointment = @patient.appointments.new(appointment_params)
+      if @appointment.save 
+        redirect_to patient_appointments_path(@patient)
+      else
+        render :new
+      end
     end
   end
 
@@ -55,6 +62,6 @@ class AppointmentsController < ApplicationController
     end
 
     def appointment_params
-      params.require(:appointments).permit(:date, :doctor_id, :patient_id)
+      params.require(:appointment).permit(:date, :doctor_id, :patient_id)
     end
 end

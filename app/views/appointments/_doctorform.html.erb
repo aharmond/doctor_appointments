@@ -1,9 +1,11 @@
-<%= form_with(model: @doctor, local: true, class: "ui form") do |f| %>
+<% @patients = User.possible_patients %>
+<%= form_with(model: [@doctor, @appointment], local: true, class: "ui form") do |f| %>
   <%= f.label :patient %>
   <%= f.select :patient_id, @patients.collect { |u| [u.full_name, u.patient.id ]} %>
   <br />
   <%= f.label :date %>
   <%= f.datetime_local_field :date %>
+  <%= f.hidden_field :doctor_id, :value => current_user.doctor.id %>
   <br />
   <%= f.submit nil %>
 <% end %>

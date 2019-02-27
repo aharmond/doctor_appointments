@@ -5,11 +5,11 @@ Rails.application.routes.draw do
   
   resources :doctors do
     resources :patients, only: [:new, :create]
-    resources :appointments, only: [:new, :edit, :destroy]
+    resources :appointments
   end
 
   resources :patients do
-    resources :appointments, only: [:index, :edit, :destroy]
+    resources :appointments
   end
 
   get "home", to: 'patients#home', as: "home"

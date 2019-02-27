@@ -1,7 +1,7 @@
 <h1><%= current_user.first_name %>'s Schedule</h1>
   <% @doctor.patients.each do |patient| %>
-    <% name(patient) %>
-      <%= @patient.first_name %> <%= @patient.last_name %>'s appointments
+    <% @patient = User.select { |p| p.id == patient.user_id } %>
+      <%= @patient.full_name %>'s appointments
         <ul>
           <% patient.appointments.each do |appointment| %>
             <li> 

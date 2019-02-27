@@ -4,7 +4,7 @@ class Patient < ApplicationRecord
   has_many :doctors, through: :appointments
 
   def name(patient)
-    @patient = User.where(['id = ?', patient.id])
+    @patient = User.select { |p| }
   end
 end
 
