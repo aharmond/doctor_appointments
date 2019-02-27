@@ -1,5 +1,5 @@
 class PatientsController < ApplicationController
-  before_action :set_patient, only: [:show, :edit, :update, :destroy]
+  before_action :set_patient, only: [:index, :show, :edit, :update, :destroy]
 
   def index
     @patients = Patient.all
@@ -55,7 +55,7 @@ class PatientsController < ApplicationController
 
   private
     def set_patient
-      @patient = Patient.find(params[:id])
+      @patient = current_user.patient
     end
 
     def patient_params

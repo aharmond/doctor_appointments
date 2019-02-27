@@ -1,11 +1,11 @@
 <h1><%= current_user.first_name %>'s Schedule</h1>
-  <% @doctor.patients.each do |patient| %>
-    <% @patient = User.select { |p| p.id == patient.user_id } %>
-      <%= @patient.full_name %>'s appointments
-        <ul>
+  <% @doctor.patients.uniq.each do |patient| %>
+      <%= patient.full_name %> 
+        <ul>  
           <% patient.appointments.each do |appointment| %>
             <li> 
               <%= appointment.date %>
+              <%= link_to 'Remove Appointment', [@doctor, appointment], method: :delete %>
             </li>
           <% end %>
         </ul>

@@ -1,2 +1,10 @@
-<h1>Patients#show</h1>
-<p>Find me in app/views/patients/show.html.erb</p>
+<h1><%= current_user.full_name %></h1>
+  <ul>  
+    <% @patient.appointments.each do |appointment| %>
+      <li> 
+        <%= appointment.date %>
+        <%= link_to 'Remove Appointment', [@patient, appointment], method: :delete %>
+      </li>
+    <% end %>
+  </ul>
+<%= link_to 'Back', patients_path %>

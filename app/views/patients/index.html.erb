@@ -1,7 +1,7 @@
 <h1>Patient Index</h1>
 <% if current_user.patient != nil %>
-  <%= link_to 'Appointment List', patient_appointments_path %>
-  <%= link_to 'Make Appointment', new_patient_appointment_path %>
+  <%= link_to 'Appointment List', patient_path(@patient) %>
+  <%= link_to 'Make Appointment', new_patient_appointment_path(@patient) %>
 <% else %>
   <p>Contact a Doctor to get signed up!</p>
 <% end %>

@@ -27,4 +27,10 @@ class User < ApplicationRecord
   def self.possible_doctors
     User.all.select { |u| u.mdmarker == true }
   end
+
+  def self.select_patient(patient)
+    @id = User.all.select { |u| u.id == patient.id }
+    @user = User.where('id = ?', @id )
+  end
+    
 end

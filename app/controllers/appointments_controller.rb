@@ -1,5 +1,5 @@
 class AppointmentsController < ApplicationController
-  before_action :set_patient, except: [:new, :create]
+  before_action :set_patient, except: [:new, :create, :destroy]
   before_action :set_appointment, only: [:edit, :update, :destroy]
   
   def index
@@ -29,7 +29,7 @@ class AppointmentsController < ApplicationController
       @patient = current_user.patient
       @appointment = @patient.appointments.new(appointment_params)
       if @appointment.save 
-        redirect_to patient_appointments_path(@patient)
+        redirect_to patient_path(@patient)
       else
         render :new
       end
@@ -49,7 +49,13 @@ class AppointmentsController < ApplicationController
 
   def destroy
     @appointment.destroy
-    redirect_to patient_appointments_path(@patient)
+    if current_user.doctor != nil
+      @doctor = current_user.doctor
+      redirect_to doctor_path(@doctor)
+    elsif current_user.patient != nil
+      @patient = current_user.patient
+      redirect_to patient_path(@patient)
+    end
   end
 
   private
@@ -58,7 +64,13 @@ class AppointmentsController < ApplicationController
     end
 
     def set_appointment
-      @appointment = @patient.appointments.find(params[:id])
+      if current_user.patient != nil
+        @patient = current_user.patient  
+        @appointment = @patient.appointments.find(params[:id])
+      elsif current_user.doctor != nil
+        @doctor = current_user.doctor
+        @appointment = @doctor.appointments.find(params[:id])
+      end
     end
 
     def appointment_params
