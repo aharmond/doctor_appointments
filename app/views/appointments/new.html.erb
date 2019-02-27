@@ -1,2 +1,6 @@
-<h1>Appointments#new</h1>
-<p>Find me in app/views/appointments/new.html.erb</p>
+<h1>New Appointment</h1>
+<% if current_user.patient == nil %>
+  <%= render "doctorform" doctor: current_user.doctor, patients: @patients  %>
+<% elsif current_user.doctor == nil %>
+  <%= render "patientform" patient: current_user.patient, doctors: @doctors %>
+<% end %>

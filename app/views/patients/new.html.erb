@@ -1,2 +1,7 @@
-<h1>Patients#new</h1>
-<p>Find me in app/views/patients/new.html.erb</p>
+<h1>Add Patient</h1>
+<%= form_with(model: @patient, local: true, class: "ui form") do |f| %>
+  <%= f.label "Which user do you want to make a patient?" %>
+  <%= f.select :user_id, @users.collect { |u| [u.full_name, u.id] }%>
+  <br />
+  <%= f.submit nil %>
+<% end %>

@@ -1,5 +1,5 @@
 class AppointmentsController < ApplicationController
-  before_action :set_patient
+  before_action :set_patient, except: [:new, :create]
   before_action :set_appointment, only: [:edit, :update, :destroy]
   
   def index
@@ -7,7 +7,16 @@ class AppointmentsController < ApplicationController
   end
 
   def new
-    @appointment = @patient.appointments.new
+    @patients = User.possible_patients
+    @doctors = User.possible_doctors
+    
+    if current_user.patient == nil
+      @doctor = current_user.doctor
+      @appointment = @doctor.appointments.new
+    elsif current_user.doctor == nil
+      @patient = current_user.patient
+      @appointment = @patient.appointments.new
+    end
   end
 
   def create
@@ -46,6 +55,6 @@ class AppointmentsController < ApplicationController
     end
 
     def appointment_params
-      params.require(:appointments).permit(:date, :doctor_id)
+      params.require(:appointments).permit(:date, :doctor_id, :patient_id)
     end
 end

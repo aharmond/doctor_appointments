@@ -3,6 +3,10 @@ class DoctorsController < ApplicationController
   
   def index
     @doctors = Doctor.all
+    
+    if current_user.doctor != nil
+      @doctor = User.user_doctor(current_user)
+    end
   end
 
   def show
@@ -44,6 +48,6 @@ class DoctorsController < ApplicationController
     end
 
     def doctor_params
-      params.require(:doctor).permit(:specialty)
+      params.require(:doctor).permit(:specialty, :user_id)
     end
 end
